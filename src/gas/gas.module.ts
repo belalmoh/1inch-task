@@ -6,4 +6,4 @@ import { GasService } from './gas.service';
   controllers: [GasController],
   providers: [GasService]
 })
-export class GasModule {}
+export class GasModule { }

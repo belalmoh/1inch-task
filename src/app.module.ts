@@ -12,6 +12,7 @@ import { UniswapModule } from './uniswap/uniswap.module';
 			isGlobal: true,
 		}),
 		CacheModule.register({
+			isGlobal: true,
 			ttl: Number(process.env.CACHE_TTL) || 60 * 1000, // 60 seconds as a default value
 		}),
 		GasModule,

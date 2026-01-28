@@ -39,6 +39,7 @@ cp .env.example .env
 ### Development Mode
 ```bash
 npm run dev
+```
 The API will be available at `http://localhost:3003`
 
 ### Production Build

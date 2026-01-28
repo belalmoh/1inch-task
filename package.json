@@ -26,6 +26,7 @@
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/swagger": "^11.2.5",
     "cache-manager": "^7.2.8",
     "class-validator": "^0.14.3",
     "ethers": "5.7",
@@ -72,6 +73,13 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/$1",
+      "^@common/(.*)$": "<rootDir>/common/$1",
+      "^@uniswap/(.*)$": "<rootDir>/uniswap/$1",
+      "^@gas/(.*)$": "<rootDir>/gas/$1",
+      "^src/(.*)$": "<rootDir>/$1"
+    }
   }
 }

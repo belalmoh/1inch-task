@@ -106,7 +106,7 @@ describe('GasService', () => {
 
 			const result = await service.getGasPrice();
 
-			expect(result).toBe(cachedPrice);
+			expect(result).toEqual({ gasPrice: cachedPrice });
 			expect(cacheManager.get).toHaveBeenCalledWith('gasPrice');
 			expect(mockGetFeeData).not.toHaveBeenCalled();
 		});
@@ -116,7 +116,7 @@ describe('GasService', () => {
 
 			const result = await service.getGasPrice();
 
-			expect(result).toBe(0);
+			expect(result).toEqual({ gasPrice: 0 });
 			expect(mockGetFeeData).not.toHaveBeenCalled();
 		});
 
@@ -125,14 +125,12 @@ describe('GasService', () => {
 			mockGetFeeData.mockResolvedValue(mockFeeData);
 			mockCacheManager.set.mockResolvedValue(undefined);
 
-			// First call returns null, second call returns the cached value
-			mockCacheManager.get
-				.mockResolvedValueOnce(null)
-				.mockResolvedValueOnce(350000000);
+			// Cache returns null (empty)
+			mockCacheManager.get.mockResolvedValue(null);
 
 			const result = await service.getGasPrice();
 
-			expect(result).toBe(350000000);
+			expect(result).toEqual({ gasPrice: 350000000 });
 			expect(mockGetFeeData).toHaveBeenCalled();
 			expect(cacheManager.set).toHaveBeenCalledWith('gasPrice', 350000000);
 		});
@@ -142,13 +140,12 @@ describe('GasService', () => {
 			mockGetFeeData.mockResolvedValue(mockFeeData);
 			mockCacheManager.set.mockResolvedValue(undefined);
 
-			mockCacheManager.get
-				.mockResolvedValueOnce(undefined)
-				.mockResolvedValueOnce(400000000);
+			// Cache returns undefined (empty)
+			mockCacheManager.get.mockResolvedValue(undefined);
 
 			const result = await service.getGasPrice();
 
-			expect(result).toBe(400000000);
+			expect(result).toEqual({ gasPrice: 400000000 });
 			expect(mockGetFeeData).toHaveBeenCalled();
 		});
 
@@ -158,7 +155,7 @@ describe('GasService', () => {
 
 			const result = await service.getGasPrice();
 
-			expect(result).toBe(largeGasPrice);
+			expect(result).toEqual({ gasPrice: largeGasPrice });
 		});
 	});
 

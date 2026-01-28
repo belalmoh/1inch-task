@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { ethers, BigNumber } from 'ethers';
-import { EstimatedAmountOutResponseDto } from 'src/common/dto/uniswap.dto';
+import { EstimatedAmountOutResponseDto } from '@common/dto/uniswap.dto';
 import { Inject } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import type { Cache } from 'cache-manager';

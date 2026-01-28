@@ -8,7 +8,7 @@ import { ethers } from 'ethers';
 @Injectable()
 export class GasService implements OnModuleInit {
     private readonly logger = new Logger(GasService.name);
-    private readonly provider: ethers.JsonRpcProvider;
+    private readonly provider: ethers.providers.JsonRpcProvider;
     private refreshInterval: NodeJS.Timeout;
 
     constructor(
@@ -16,7 +16,7 @@ export class GasService implements OnModuleInit {
         private configService: ConfigService
     ) {
         const rpcUrl = this.configService.get<string>('ETHEREUM_RPC_URL');
-        this.provider = new ethers.JsonRpcProvider(rpcUrl);
+        this.provider = new ethers.providers.JsonRpcProvider(rpcUrl);
     }
 
     async onModuleInit() {

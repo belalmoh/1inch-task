@@ -21,8 +21,7 @@ A high-performance NestJS API providing Ethereum gas price tracking and Uniswap 
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/belalmoh/1inch-task
-cd 1inch-task
+git clone https://github.com/belalmoh/1inch-task && cd 1inch-task
 ```
 ### 2. Install Dependencies
 ```bash

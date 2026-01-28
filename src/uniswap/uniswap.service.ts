@@ -100,8 +100,12 @@ export class UniswapService {
 	 * Final Forumla
 	 * -------------
 	 * amountOut = (amountInWithFee * reserveOut) / (reserveIn * 1000 + amountInWithFee)
+	 * ========================================================================================
+	 * Source: https://github.com/Uniswap/v2-periphery/blob/master/contracts/libraries/UniswapV2Library.sol
+	 * UniswapV2 Documentation:
+	 * - Whitepaper: https://uniswap.org/whitepaper.pdf
+	 * - Docs: https://docs.uniswap.org/contracts/v2/concepts/core-concepts/swaps
 	*/
-
 	calculateAmountOut(reserveIn: BigNumber, reserveOut: BigNumber, amountIn: BigNumber): BigNumber {
 		if (reserveIn.lte(0) || reserveOut.lte(0)) {
 			throw new BadRequestException('Insufficient Liquidity');

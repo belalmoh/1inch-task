@@ -10,13 +10,16 @@ export class LoggingInterceptor implements NestInterceptor {
         const request = context.switchToHttp().getRequest();
         const { method, url } = request;
 
+        const startTime = Date.now();
+
         this.logger.log(`→ ${method} ${url} - Request started`);
 
         return next
             .handle()
             .pipe(
                 tap((response) => {
-                    this.logger.log(`← ${method} ${url} - response: ${JSON.stringify(response)}`);
+                    const endTime = Date.now();
+                    this.logger.log(`← ${method} ${url} - response: ${JSON.stringify(response)} - time taken: ${endTime - startTime}ms`);
                 }),
             );
     }

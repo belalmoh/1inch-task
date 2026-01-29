@@ -135,19 +135,22 @@ export class UniswapService {
 	}
 
 	async getEstimatedAmountOut(fromTokenAddress: string, toTokenAddress: string, amountIn: string): Promise<EstimatedAmountOutResponseDto> {
-		if (!ethers.utils.isAddress(fromTokenAddress)) {
-			throw new BadRequestException('Invalid from token address');
-		}
-		if (!ethers.utils.isAddress(toTokenAddress)) {
-			throw new BadRequestException('Invalid to token address');
-		}
-
-		const pairAddress = await this.factory.getPair(fromTokenAddress, toTokenAddress);
-		if (!pairAddress || pairAddress === ethers.constants.AddressZero) {
-			throw new BadRequestException('Pair not found in Uniswap V2 Factory Contract');
-		}
-
 		try {
+			if (!ethers.utils.isAddress(fromTokenAddress)) {
+				throw new BadRequestException('Invalid from token address');
+			}
+			if (!ethers.utils.isAddress(toTokenAddress)) {
+				throw new BadRequestException('Invalid to token address');
+			}
+			if (amountIn === '0') {
+				throw new BadRequestException('Amount in must be greater than zero');
+			}
+
+			const pairAddress = await this.factory.getPair(fromTokenAddress, toTokenAddress);
+			if (!pairAddress || pairAddress === ethers.constants.AddressZero) {
+				throw new BadRequestException('Pair not found in Uniswap V2 Factory Contract');
+			}
+
 			const cachedValue = await this.getCachedEstimatedAmountOut(fromTokenAddress, toTokenAddress, amountIn);
 			if (cachedValue) {
 				return { estimatedOutputAmount: cachedValue.toString() };
@@ -160,6 +163,8 @@ export class UniswapService {
 			let reserveIn: BigNumber;
 			let reserveOut: BigNumber;
 
+			// Uniswap pairs always store tokens in sorted order (token0 < token1)
+			// We need to determine which reserve corresponds to our input token
 			if (token0.toLowerCase() === fromTokenAddress.toLowerCase()) {
 				reserveIn = reserves._reserve0;
 				reserveOut = reserves._reserve1;
@@ -178,6 +183,11 @@ export class UniswapService {
 				estimatedOutputAmount: formattedAmount.toString()
 			};
 		} catch (error) {
+			// Re-throw BadRequestException so it reaches the client with the proper error message
+			if (error instanceof BadRequestException) {
+				throw error;
+			}
+			// Log and throw generic error for unexpected errors
 			this.logger.error('Error getting pair reserves:', error);
 			throw new BadRequestException('Failed to get pair reserves');
 		}

@@ -53,6 +53,10 @@ describe('GasService', () => {
 
 		// Replace the provider's getFeeData with our mock
 		(service as any).provider.getFeeData = mockGetFeeData;
+
+		// Suppress logger output during tests
+		jest.spyOn((service as any).logger, 'log').mockImplementation();
+		jest.spyOn((service as any).logger, 'error').mockImplementation();
 	});
 
 	afterEach(() => {

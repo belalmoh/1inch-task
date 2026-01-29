@@ -62,6 +62,10 @@ describe('UniswapService', () => {
 
 		// Replace the factory with our mock
 		(service as any).factory = mockFactory;
+
+		// Suppress logger output during tests
+		jest.spyOn((service as any).logger, 'log').mockImplementation();
+		jest.spyOn((service as any).logger, 'error').mockImplementation();
 	});
 
 	afterEach(() => {

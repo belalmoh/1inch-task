@@ -97,8 +97,8 @@ export class UniswapService {
 	 * --------------------------------------------------------------------
 	 * amountInWithFee = amountIn * 997 / 1000
 	 * 
-	 * Final Forumla
-	 * -------------
+	 * Forumla Sources
+	 * ----------------
 	 * amountOut = (amountInWithFee * reserveOut) / (reserveIn * 1000 + amountInWithFee)
 	 * ========================================================================================
 	 * Source: https://github.com/Uniswap/v2-periphery/blob/master/contracts/libraries/UniswapV2Library.sol
